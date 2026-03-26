@@ -1,5 +1,7 @@
 package com.fnb.paymentservice.service;
 
+import com.fnb.paymentservice.dto.CardRequest;
+import com.fnb.paymentservice.dto.CardResponse;
 import com.fnb.paymentservice.events.model.OrderCreatedEvent;
 import com.fnb.paymentservice.events.model.PaymentResultEvent;
 import com.fnb.paymentservice.events.publisher.PaymentEventPublisher;
@@ -10,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Random;
+import java.util.Calendar;
 
 @Service
 @RequiredArgsConstructor
@@ -20,38 +22,97 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final PaymentEventPublisher paymentEventPublisher;
 
-    public void processPayment(OrderCreatedEvent event) {
+    public CardResponse processCardPayment(CardRequest request) {
 
-        // Randomly approve or decline
-        boolean approved = new Random().nextBoolean();
-        Payment.PaymentStatus status = approved
-                ? Payment.PaymentStatus.APPROVED
-                : Payment.PaymentStatus.DECLINED;
+        // Validate card number — must be 16 digits
+        String cleanCardNumber = request.getCardNumber().replaceAll("\\s", "");
+        if (cleanCardNumber.length() != 16 || !cleanCardNumber.matches("\\d+")) {
+            return CardResponse.builder()
+                    .status("DECLINED")
+                    .message("Invalid card number — must be 16 digits")
+                    .orderId(request.getOrderId())
+                    .amount(request.getAmount())
+                    .build();
+        }
 
-        log.info("Processing payment for orderId: {} — {}",
-                event.getOrderId(), status);
+        // Validate CVV — must be 3 digits
+        if (request.getCvv().length() != 3 || !request.getCvv().matches("\\d+")) {
+            return CardResponse.builder()
+                    .status("DECLINED")
+                    .message("Invalid CVV — must be 3 digits")
+                    .orderId(request.getOrderId())
+                    .amount(request.getAmount())
+                    .build();
+        }
+
+        // Validate expiry — must not be in the past
+        Calendar now = Calendar.getInstance();
+        int currentYear = now.get(Calendar.YEAR);
+        int currentMonth = now.get(Calendar.MONTH) + 1;
+
+        if (request.getExpiryYear() < currentYear ||
+                (request.getExpiryYear() == currentYear &&
+                        request.getExpiryMonth() < currentMonth)) {
+            return CardResponse.builder()
+                    .status("DECLINED")
+                    .message("Card has expired")
+                    .orderId(request.getOrderId())
+                    .amount(request.getAmount())
+                    .build();
+        }
+
+        // Simulate balance check
+        // Last 4 digits determine balance (just for simulation)
+        String last4 = cleanCardNumber.substring(12);
+        double simulatedBalance = (Double.parseDouble(last4) % 500) + 100;
+
+        if (simulatedBalance < request.getAmount()) {
+            return CardResponse.builder()
+                    .status("DECLINED")
+                    .message("Insufficient funds")
+                    .orderId(request.getOrderId())
+                    .amount(request.getAmount())
+                    .build();
+        }
 
         // Save payment record
         Payment payment = Payment.builder()
-                .orderId(event.getOrderId())
-                .customerId(event.getCustomerId())
-                .amount(event.getTotalPrice())
-                .status(status)
+                .orderId(request.getOrderId())
+                .customerId(0L)
+                .amount(request.getAmount())
+                .status(Payment.PaymentStatus.APPROVED)
                 .createdAt(LocalDateTime.now())
                 .build();
 
         paymentRepository.save(payment);
 
-        // Publish result event
+        // Publish payment result event
         PaymentResultEvent resultEvent = PaymentResultEvent.builder()
-                .orderId(event.getOrderId())
-                .customerId(event.getCustomerId())
-                .productName(event.getProductName())
-                .quantity(event.getQuantity())
-                .totalPrice(event.getTotalPrice())
-                .status(status.name())
+                .orderId(request.getOrderId())
+                .customerId(request.getCustomerId())
+                .productName(request.getProductName())
+                .quantity(request.getQuantity())
+                .totalPrice(request.getAmount())
+                .status("APPROVED")
                 .build();
 
         paymentEventPublisher.publishPaymentResult(resultEvent);
+
+        log.info("Payment APPROVED for orderId: {} amount: R{}",
+                request.getOrderId(), request.getAmount());
+
+        return CardResponse.builder()
+                .status("APPROVED")
+                .message("Payment successful!")
+                .orderId(request.getOrderId())
+                .amount(request.getAmount())
+                .cardHolder(request.getCardHolder())
+                .last4Digits(last4)
+                .build();
+    }
+
+    public void processPayment(OrderCreatedEvent event) {
+        // Keep for Kafka flow
+        log.info("Kafka payment event received for orderId: {}", event.getOrderId());
     }
 }

@@ -505,6 +505,133 @@ a {
     font-weight: 600;
 }
 
+/* ===== ORDER SUMMARY ===== */
+.order-summary {
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+}
+
+.order-summary p {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95rem;
+}
+
+.order-summary p:last-child {
+    border-bottom: none;
+}
+
+/* ===== TRACKING ===== */
+.tracking-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.tracking-summary {
+    display: flex;
+    gap: 30px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.tracking-summary-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.tracking-summary-item span {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.tracking-summary-item strong {
+    font-size: 1rem;
+    color: #1a1a2e;
+}
+
+/* ===== TIMELINE ===== */
+.timeline {
+    position: relative;
+    padding-left: 20px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 35px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #eee;
+}
+
+.timeline-item {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.timeline-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    z-index: 1;
+    background: #f0f0f0;
+    border: 2px solid #ddd;
+}
+
+.timeline-item.PLACED .timeline-icon,
+.timeline-item.PAYMENT_APPROVED .timeline-icon,
+.timeline-item.INVENTORY_UPDATED .timeline-icon,
+.timeline-item.OUT_FOR_DELIVERY .timeline-icon,
+.timeline-item.DELIVERED .timeline-icon {
+    background: #f0fff4;
+    border-color: #4ecca3;
+}
+
+.timeline-item.PAYMENT_DECLINED .timeline-icon,
+.timeline-item.INVENTORY_FAILED .timeline-icon {
+    background: #fff5f5;
+    border-color: #e53e3e;
+}
+
+.timeline-content {
+    padding-top: 8px;
+    flex: 1;
+}
+
+.timeline-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 4px;
+}
+
+.timeline-message {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 4px;
+}
+
+.timeline-time {
+    font-size: 0.78rem;
+    color: #aaa;
+}
+
 /* ===== DIVIDER ===== */
 .divider {
     height: 1px;

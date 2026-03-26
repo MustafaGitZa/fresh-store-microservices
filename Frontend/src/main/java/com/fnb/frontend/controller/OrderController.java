@@ -1,5 +1,6 @@
 package com.fnb.frontend.controller;
 
+import com.fnb.frontend.dto.CardRequest;
 import com.fnb.frontend.dto.OrderRequest;
 import com.fnb.frontend.service.OrderService;
 import jakarta.servlet.http.HttpSession;
@@ -27,8 +28,12 @@ public class OrderController {
             String token = (String) session.getAttribute("token");
             Map body = orderService.placeOrder(request, token);
             session.setAttribute("lastOrder", body);
+
+            // Redirect to card payment page instead of order status
             model.addAttribute("order", body);
-            return "orderStatus";
+            model.addAttribute("cardRequest", new CardRequest());
+            return "cardPayment";
+
         } catch (Exception e) {
             model.addAttribute("error", "Order failed: " + e.getMessage());
             return "products";
