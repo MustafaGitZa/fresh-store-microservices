@@ -7,19 +7,24 @@
         </div>
         <c:if test="${not empty sessionScope.token}">
             <ul class="navbar-nav">
-                <li><a href="/products">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3724/3724788.png" width="16"/> Products
-                </a></li>
+                <li><a href="/products">Products</a></li>
                 <c:if test="${sessionScope.role == 'ADMIN'}">
-                    <li><a href="/inventory">
-                        <img src="https://cdn-icons-png.flaticon.com/512/2917/2917995.png" width="16"/> Inventory
-                    </a></li>
+                    <li><a href="/inventory">Inventory</a></li>
                 </c:if>
             </ul>
         </c:if>
     </div>
 
     <div class="navbar-right">
+        <c:if test="${not empty sessionScope.token}">
+            <a href="/cart" class="cart-btn">
+                <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" width="20"/>
+                Cart
+                <c:if test="${not empty sessionScope.cart and sessionScope.cart.size() > 0}">
+                    <span class="cart-badge">${sessionScope.cart.size()}</span>
+                </c:if>
+            </a>
+        </c:if>
         <c:if test="${not empty sessionScope.username}">
             <div class="navbar-user">
                 Welcome, <span>${sessionScope.username}</span>
@@ -29,9 +34,7 @@
             </div>
         </c:if>
         <c:if test="${not empty sessionScope.token}">
-            <a href="/logout" class="btn-logout">
-                <img src="https://cdn-icons-png.flaticon.com/512/1828/1828479.png" width="16"/> Logout
-            </a>
+            <a href="/logout" class="btn-logout">Logout</a>
         </c:if>
     </div>
 </nav>
