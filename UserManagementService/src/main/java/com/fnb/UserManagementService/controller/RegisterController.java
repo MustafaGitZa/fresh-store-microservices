@@ -6,6 +6,8 @@ import com.fnb.UserManagementService.dto.RegisterRequest;
 import com.fnb.UserManagementService.dto.RegisterResponse;
 import com.fnb.UserManagementService.service.UserService;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/users")
 public class RegisterController {
@@ -28,6 +30,19 @@ public class RegisterController {
     public ResponseEntity<RegisterResponse> updateUser(@PathVariable Long userId,
                                                        @RequestBody RegisterRequest request) {
         return ResponseEntity.ok(userService.updateUser(userId, request));
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Map<String, String>> forgotPassword(
+            @RequestBody Map<String, String> request) {
+        return ResponseEntity.ok(userService.forgotPassword(request.get("email")));
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(
+            @RequestBody Map<String, String> request) {
+        userService.resetPassword(request.get("token"), request.get("password"));
+        return ResponseEntity.ok("Password reset successful");
     }
 
      @GetMapping("/health")

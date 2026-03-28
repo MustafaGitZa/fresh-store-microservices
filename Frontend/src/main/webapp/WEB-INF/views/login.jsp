@@ -19,15 +19,19 @@
 
         <c:if test="${not empty error}">
             <div class="alert alert-error">
-                <img src="https://cdn-icons-png.flaticon.com/512/564/564619.png" width="18"/>
                     ${error}
             </div>
         </c:if>
 
         <c:if test="${param.registered == 'true'}">
             <div class="alert alert-success">
-                <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" width="18"/>
                 Registration successful! Please login.
+            </div>
+        </c:if>
+
+        <c:if test="${param.reset == 'true'}">
+            <div class="alert alert-success">
+                Password reset successful! Please login with your new password.
             </div>
         </c:if>
 
@@ -43,10 +47,16 @@
                        placeholder="Enter your password" required/>
             </div>
             <button type="submit" class="btn btn-primary">
-                <img src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png" width="18"/>
                 Sign In
             </button>
         </form>
+
+        <div style="text-align:center; margin-top:15px;">
+            <a href="/forgot-password"
+               style="font-size:0.85rem; color:#888;">
+                Forgot your password?
+            </a>
+        </div>
 
         <div class="auth-footer">
             Don't have an account? <a href="/register">Register here</a>
