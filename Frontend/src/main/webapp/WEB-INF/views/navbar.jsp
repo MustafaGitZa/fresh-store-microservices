@@ -18,24 +18,45 @@
 
     <div class="navbar-right">
         <c:if test="${not empty sessionScope.token}">
+
+            <!-- Cart -->
             <a href="/cart" class="cart-btn">
-                <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" width="20"/>
-                Cart
+                &#128722;
                 <c:if test="${not empty sessionScope.cart and sessionScope.cart.size() > 0}">
                     <span class="cart-badge">${sessionScope.cart.size()}</span>
                 </c:if>
             </a>
-        </c:if>
-        <c:if test="${not empty sessionScope.username}">
-            <div class="navbar-user">
-                Welcome, <span>${sessionScope.username}</span>
-                <c:if test="${sessionScope.role == 'ADMIN'}">
-                    &nbsp;| <span style="color:#f6ad55;">ADMIN</span>
-                </c:if>
+
+            <!-- Profile Dropdown -->
+            <div class="profile-dropdown">
+                <div class="profile-trigger">
+                    <div class="profile-avatar-sm">
+                        ${sessionScope.username.substring(0,1).toUpperCase()}
+                    </div>
+                </div>
+                <div class="profile-menu">
+                    <div class="profile-menu-header">
+                        <div class="profile-menu-name">${sessionScope.username}</div>
+                        <div class="profile-menu-role">${sessionScope.role}</div>
+                    </div>
+                    <div class="profile-menu-divider"></div>
+                    <a href="/profile" class="profile-menu-item">
+                        &#128100; My Profile
+                    </a>
+                    <a href="/orders/history" class="profile-menu-item">
+                        &#128230; My Orders
+                    </a>
+                    <c:if test="${sessionScope.role == 'ADMIN'}">
+                        <a href="/admin" class="profile-menu-item">
+                            &#9881; Dashboard
+                        </a>
+                    </c:if>
+                    <div class="profile-menu-divider"></div>
+                    <a href="/logout" class="profile-menu-item logout">
+                        &#128274; Logout
+                    </a>
+                </div>
             </div>
-        </c:if>
-        <c:if test="${not empty sessionScope.token}">
-            <a href="/logout" class="btn-logout">Logout</a>
         </c:if>
     </div>
 </nav>

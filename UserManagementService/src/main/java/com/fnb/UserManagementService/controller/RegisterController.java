@@ -1,11 +1,7 @@
 package com.fnb.UserManagementService.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.fnb.UserManagementService.dto.RegisterRequest;
 import com.fnb.UserManagementService.dto.RegisterResponse;
 import com.fnb.UserManagementService.service.UserService;
@@ -21,6 +17,17 @@ public class RegisterController {
     public ResponseEntity<RegisterResponse> register(@RequestBody RegisterRequest request) {
         RegisterResponse response = userService.register(request);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<RegisterResponse> getUserById(@PathVariable Long userId) {
+        return ResponseEntity.ok(userService.getUserById(userId));
+    }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<RegisterResponse> updateUser(@PathVariable Long userId,
+                                                       @RequestBody RegisterRequest request) {
+        return ResponseEntity.ok(userService.updateUser(userId, request));
     }
 
      @GetMapping("/health")
