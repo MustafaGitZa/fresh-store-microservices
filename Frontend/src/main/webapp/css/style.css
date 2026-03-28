@@ -95,6 +95,7 @@ a {
     border-radius: 8px;
     transition: all 0.2s;
     cursor: pointer;
+    background: none;
 }
 
 .btn-logout:hover {
@@ -297,6 +298,63 @@ a {
     height: 32px;
 }
 
+/* ===== WELCOME MESSAGE ===== */
+.welcome-message {
+    font-size: 0.95rem;
+    color: #888;
+}
+
+.welcome-message strong {
+    color: #1a1a2e;
+    font-weight: 700;
+}
+
+/* ===== FILTER BAR ===== */
+.filter-bar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.search-box {
+    flex: 1;
+}
+
+.filter-group {
+    width: 140px;
+}
+
+/* ===== CATEGORY TABS ===== */
+.category-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.category-tab {
+    padding: 8px 24px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 25px;
+    background: #fff;
+    color: #666;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.category-tab:hover {
+    border-color: #1a1a2e;
+    color: #1a1a2e;
+}
+
+.category-tab.active {
+    background: #1a1a2e;
+    border-color: #1a1a2e;
+    color: #fff;
+}
+
 /* ===== PRODUCTS GRID ===== */
 .products-grid {
     display: grid;
@@ -313,6 +371,7 @@ a {
     transition: transform 0.2s, box-shadow 0.2s;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .product-card:hover {
@@ -362,6 +421,41 @@ a {
     border-top: 1px solid #f0f0f0;
 }
 
+/* ===== PRODUCT CATEGORY BADGE ===== */
+.product-category-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    z-index: 2;
+}
+
+.product-category-badge.Fruit {
+    background: rgba(255, 200, 100, 0.9);
+    color: #7b4f00;
+}
+
+.product-category-badge.Vegetable {
+    background: rgba(100, 200, 100, 0.9);
+    color: #1a5c1a;
+}
+
+/* ===== NO RESULTS ===== */
+.no-results {
+    text-align: center;
+    padding: 60px 20px;
+    color: #888;
+    font-size: 1rem;
+    background: #fff;
+    border-radius: 12px;
+    margin-top: 10px;
+    grid-column: 1 / -1;
+}
+
+/* ===== QUANTITY INPUT ===== */
 .quantity-input {
     width: 60px;
     padding: 8px;

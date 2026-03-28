@@ -8,4 +8,5 @@ public class InventoryDto {
     private String productName;
     private Integer quantity;
     private Double price;
+    private String category;
 }

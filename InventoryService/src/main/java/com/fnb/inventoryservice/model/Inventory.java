@@ -24,4 +24,7 @@ public class Inventory {
 
     @Column(name = "price", nullable = false)
     private Double price;
+
+    @Column(name = "category")
+    private String category;
 }
