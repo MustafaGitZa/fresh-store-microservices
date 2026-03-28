@@ -9,6 +9,7 @@
             <ul class="navbar-nav">
                 <li><a href="/products">Products</a></li>
                 <c:if test="${sessionScope.role == 'ADMIN'}">
+                    <li><a href="/admin">Dashboard</a></li>
                     <li><a href="/inventory">Inventory</a></li>
                 </c:if>
             </ul>
