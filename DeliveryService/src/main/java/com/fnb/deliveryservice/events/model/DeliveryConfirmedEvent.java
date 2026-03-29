@@ -16,4 +16,5 @@ public class DeliveryConfirmedEvent {
     private Integer quantity;
     private Double totalPrice;
     private String deliveryStatus;
+    private String customerEmail;
 }

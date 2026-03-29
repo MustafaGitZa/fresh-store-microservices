@@ -52,6 +52,7 @@ public class InventoryService {
                 .totalPrice(event.getTotalPrice())
                 .paymentStatus(event.getStatus())
                 .inventoryStatus(inventoryStatus)
+                .customerEmail(event.getCustomerEmail())
                 .build();
 
         inventoryEventPublisher.publishInventoryUpdated(updatedEvent);

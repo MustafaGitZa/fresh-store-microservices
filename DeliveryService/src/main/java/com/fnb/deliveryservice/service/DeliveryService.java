@@ -50,6 +50,7 @@ public class DeliveryService {
                 .quantity(event.getQuantity())
                 .totalPrice(event.getTotalPrice())
                 .deliveryStatus(deliveryStatus.name())
+                .customerEmail(event.getCustomerEmail())
                 .build();
 
         deliveryEventPublisher.publishDeliveryConfirmed(confirmedEvent);
