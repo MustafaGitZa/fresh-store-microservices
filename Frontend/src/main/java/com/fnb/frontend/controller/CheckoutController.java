@@ -109,6 +109,7 @@ public class CheckoutController {
                 cardRequest.setAmount(item.getSubtotal());
                 cardRequest.setProductName(item.getProductName());
                 cardRequest.setQuantity(item.getQuantity());
+                cardRequest.setCustomerEmail(session.getAttribute("email").toString());
 
                 cardPaymentService.processPayment(cardRequest);
             }

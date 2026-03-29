@@ -15,4 +15,5 @@ public class OrderCreatedEvent {
     private String productName;
     private Integer quantity;
     private Double totalPrice;
+    private String customerEmail;
 }

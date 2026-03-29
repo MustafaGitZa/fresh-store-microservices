@@ -16,4 +16,5 @@ public class PaymentResultEvent {
     private Integer quantity;
     private Double totalPrice;
     private String status;
+    private String customerEmail;
 }

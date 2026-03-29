@@ -14,4 +14,5 @@ public class CardRequest {
     private Double amount;
     private String productName;
     private Integer quantity;
+    private String customerEmail;
 }

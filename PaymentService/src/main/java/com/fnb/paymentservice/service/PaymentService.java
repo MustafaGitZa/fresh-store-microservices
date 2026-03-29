@@ -75,10 +75,13 @@ public class PaymentService {
                     .build();
         }
 
-        // Save payment record
+        // Get customerEmail from request
+        String customerEmail = request.getCustomerEmail();
+
+// Save payment record
         Payment payment = Payment.builder()
                 .orderId(request.getOrderId())
-                .customerId(0L)
+                .customerId(request.getCustomerId())
                 .amount(request.getAmount())
                 .status(Payment.PaymentStatus.APPROVED)
                 .createdAt(LocalDateTime.now())
@@ -86,7 +89,7 @@ public class PaymentService {
 
         paymentRepository.save(payment);
 
-        // Publish payment result event
+// Publish payment result event — pass customerEmail through
         PaymentResultEvent resultEvent = PaymentResultEvent.builder()
                 .orderId(request.getOrderId())
                 .customerId(request.getCustomerId())
@@ -94,8 +97,10 @@ public class PaymentService {
                 .quantity(request.getQuantity())
                 .totalPrice(request.getAmount())
                 .status("APPROVED")
+                .customerEmail(customerEmail)
                 .build();
 
+        paymentEventPublisher.publishPaymentResult(resultEvent);
         paymentEventPublisher.publishPaymentResult(resultEvent);
 
         log.info("Payment APPROVED for orderId: {} amount: R{}",

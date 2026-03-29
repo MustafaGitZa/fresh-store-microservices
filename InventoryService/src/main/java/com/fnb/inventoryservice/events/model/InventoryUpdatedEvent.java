@@ -17,4 +17,5 @@ public class InventoryUpdatedEvent {
     private Double totalPrice;
     private String paymentStatus;
     private String inventoryStatus;
+    private String customerEmail;
 }

@@ -29,7 +29,8 @@ public class LoginService {
         String token = jwtUtil.generateToken(
                 user.getUsername(),
                 user.getUserId(),
-                user.getRole().name()
+                user.getRole().name(),
+                user.getEmail()
         );
 
         return AuthResponse.builder()
@@ -37,6 +38,7 @@ public class LoginService {
                 .userId(user.getUserId())
                 .username(user.getUsername())
                 .role(user.getRole().name())
+                .email(user.getEmail())
                 .message("Login successful")
                 .build();
     }

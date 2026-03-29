@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -45,6 +46,17 @@ public class OrderController {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(orderService.createOrder(request, customerId));
+    }
+
+    @GetMapping("/customer/{customerId}")
+    public ResponseEntity<List<Order>> getOrdersByCustomer(
+            @PathVariable Long customerId) {
+        return ResponseEntity.ok(
+                orderRepository.findByCustomerId(customerId)
+                        .stream()
+                        .sorted((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()))
+                        .collect(Collectors.toList())
+        );
     }
 
     @GetMapping("/{orderId}/tracking")

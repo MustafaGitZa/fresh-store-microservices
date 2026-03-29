@@ -37,6 +37,7 @@ public class AuthController {
             session.setAttribute("username", body.get("username"));
             session.setAttribute("role", body.get("role"));
             session.setAttribute("userId", body.get("userId"));
+            session.setAttribute("email", body.get("email"));
             return "redirect:/products";
         } catch (Exception e) {
             model.addAttribute("error", "Invalid username or password");

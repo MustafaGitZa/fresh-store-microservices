@@ -8,6 +8,7 @@ import com.fnb.orderservice.model.Order;
 import com.fnb.orderservice.model.OrderStatus;
 import com.fnb.orderservice.repository.OrderRepository;
 import com.fnb.orderservice.repository.OrderStatusRepository;
+import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -66,4 +67,6 @@ public class OrderService {
                 .message("Order created successfully")
                 .build();
     }
+
+
 }
